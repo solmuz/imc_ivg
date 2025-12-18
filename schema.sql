@@ -161,7 +161,6 @@ CREATE TABLE IF NOT EXISTS audit_trail (
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla de auditoría de todas las operaciones del sistema';
 
-<<<<<<< HEAD
 -- ============================================
 -- TABLA: reports (Reportes generados)
 -- ============================================
@@ -654,46 +653,6 @@ BEGIN
     VALUES ('system', 'UPDATE', NULL, 'Limpieza automática de intentos de login antiguos');
 END$$
 
--- Evento: Archivar proyectos antiguos (ejecutar mensualmente)
-CREATE EVENT IF NOT EXISTS archive_old_projects
-ON SCHEDULE EVERY 1 MONTH
-STARTS CURRENT_TIMESTAMP
-DO
-BEGIN
-    DECLARE done INT DEFAULT FALSE;
-    DECLARE project_id INT UNSIGNED;
-    DECLARE project_name VARCHAR(150);
-    DECLARE cur CURSOR FOR 
-        SELECT id, name 
-        FROM projects 
-        WHERE project_status = 'Cerrado' 
-        AND updated_at < DATE_SUB(NOW(), INTERVAL 6 MONTH);
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-    
-    OPEN cur;
-    
-    read_loop: LOOP
-        FETCH cur INTO project_id, project_name;
-        IF done THEN
-            LEAVE read_loop;
-        END IF;
-        
-        -- Archivar proyecto
-        UPDATE projects 
-        SET project_status = 'Archivado'
-        WHERE id = project_id;
-        
-        -- Registrar auditoría
-        INSERT INTO audit_trail (entity_type, entity_id, action_type, action_description)
-        VALUES ('project', project_id, 'UPDATE', 
-                CONCAT('Archivado automáticamente: ', project_name));
-    END LOOP;
-    
-    CLOSE cur;
-END$$
-
-DELIMITER ;
-
 -- ============================================
 -- COMENTARIOS Y DOCUMENTACIÓN
 -- ============================================
@@ -720,21 +679,3 @@ SELECT
     (SELECT COUNT(*) FROM system_config) AS config_count
 FROM information_schema.tables 
 WHERE table_schema = 'imc_app';
-=======
--- Insertar el primer usuario (Administrador) con un hash temporal
-INSERT INTO users (
-    username,
-    email,
-    password_hash,
-    user_role,
-    user_status,
-    created_by
-) VALUES (
-    'admin_root',
-    'admin@imcapp.com',
-    'TEMPORAL_PENDIENTE_HASH', -- <-- Valor temporal
-    'Administrador',
-    'Activo',
-    NULL
-);
->>>>>>> acbaa98 (fastapi change)
