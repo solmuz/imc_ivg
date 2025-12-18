@@ -1,0 +1,98 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: white;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-brand h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.header-nav a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.header-nav a:hover {
+  color: white;
+  background: rgba(255,255,255,0.1);
+}
+
+.header-nav a.active {
+  color: white;
+  background: rgba(255,255,255,0.2);
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  font-size: 0.9rem;
+}
+
+.user-role {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.btn-link {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.btn-link:hover {
+  color: white;
+}
+
+.btn-logout {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f5f7fa;
+}
+
+.footer {
+  background: #1e3a5f;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,174 @@
+.audit-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h2 {
+  color: #1e3a5f;
+  margin: 0;
+}
+
+.total-count {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.filters-bar select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+}
+
+.btn-clear {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background: #f9fafb;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-clear:hover {
+  background: #e5e7eb;
+}
+
+.audit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.audit-item {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.audit-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.action-badge.action-create { background: #dcfce7; color: #166534; }
+.action-badge.action-update { background: #fef3c7; color: #92400e; }
+.action-badge.action-delete { background: #fee2e2; color: #991b1b; }
+.action-badge.action-export { background: #ddd6fe; color: #5b21b6; }
+.action-badge.action-login { background: #e0f2fe; color: #0369a1; }
+.action-badge.action-logout { background: #f3f4f6; color: #6b7280; }
+.action-badge.action-failed { background: #fecaca; color: #dc2626; }
+
+.entity-badge {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.audit-time {
+  margin-left: auto;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.audit-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.audit-details {
+  margin-top: 0.75rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+
+.audit-details details {
+  margin-bottom: 0.5rem;
+}
+
+.audit-details summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: #2d5a87;
+  font-size: 0.85rem;
+}
+
+.audit-details pre {
+  background: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  overflow-x: auto;
+  margin: 0.5rem 0 0 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+  padding: 2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+}

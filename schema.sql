@@ -161,6 +161,7 @@ CREATE TABLE IF NOT EXISTS audit_trail (
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla de auditoría de todas las operaciones del sistema';
 
+<<<<<<< HEAD
 -- ============================================
 -- TABLA: reports (Reportes generados)
 -- ============================================
@@ -719,3 +720,21 @@ SELECT
     (SELECT COUNT(*) FROM system_config) AS config_count
 FROM information_schema.tables 
 WHERE table_schema = 'imc_app';
+=======
+-- Insertar el primer usuario (Administrador) con un hash temporal
+INSERT INTO users (
+    username,
+    email,
+    password_hash,
+    user_role,
+    user_status,
+    created_by
+) VALUES (
+    'admin_root',
+    'admin@imcapp.com',
+    'TEMPORAL_PENDIENTE_HASH', -- <-- Valor temporal
+    'Administrador',
+    'Activo',
+    NULL
+);
+>>>>>>> acbaa98 (fastapi change)
