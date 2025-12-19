@@ -4,11 +4,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
 
-# Create SQLite engine
+# Crear URL de conexión para MariaDB/MySQL
+DATABASE_URL = f"mysql+pymysql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+
+# Create engine
 engine = create_engine(
-    settings.DATABASE_URL,
-    echo = True
-    # Required for SQLite
+    DATABASE_URL,
+    echo=True,
+    pool_pre_ping=True,  # Recomendado para MySQL
+    pool_recycle=3600    # Reciclar conexiones cada hora
 )
 
 # Session factory
