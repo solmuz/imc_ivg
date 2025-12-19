@@ -5,7 +5,7 @@
 
 -- Eliminar base de datos si existe (CUIDADO: Solo para desarrollo)
 -- DROP DATABASE IF EXISTS imc_app;
-
+1
 -- Crear base de datos
 CREATE DATABASE IF NOT EXISTS imc_app 
 CHARACTER SET utf8mb4 
