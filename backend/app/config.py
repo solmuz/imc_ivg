@@ -1,5 +1,5 @@
 """Application configuration settings."""
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, List
 
 
@@ -11,20 +11,21 @@ class Settings(BaseSettings):
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
     
-    # Database MariaDB
+    # Database MariaDB - ¡USAR imc_user NO root!
     DB_HOST: str = "localhost"
     DB_PORT: str = "3306"
-    DB_USER: str = "root"
-    DB_PASSWORD: str = "Admin"
-    DB_NAME: str = "imc_app"    
+    DB_USER: str = "imc_user"           # ← ¡CAMBIADO de "root" a "imc_user"!
+    DB_PASSWORD: str = "PasswordSeguro123!"  # ← Contraseña que le diste al usuario
+    DB_NAME: str = "imc_app"
+    
     # Security
-    SECRET_KEY: str = "your-super-secret-key-change-in-production-minimum-32-chars"
+    SECRET_KEY: str = "0SIz2/SWXyaqdpI3CfoSkrbt+zdEesB1aff9KCk9a0M="
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     
     # Password policies
     PASSWORD_MIN_LENGTH: int = 8
-    MIN_PASSWORD_LENGTH: int = 8  # Alias
+    MIN_PASSWORD_LENGTH: int = 8
     MAX_LOGIN_ATTEMPTS: int = 5
     LOCKOUT_DURATION_MINUTES: int = 15
     
@@ -45,15 +46,19 @@ class Settings(BaseSettings):
     IMC_HIGH_THRESHOLD: float = 27.00
     
     # Audit
-    AUDIT_RETENTION_DAYS: Optional[int] = None  # None = indefinite
+    AUDIT_RETENTION_DAYS: Optional[int] = None
     
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:3000"]
     ALLOWED_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:3000"]
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    # Pydantic v2 configuration
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+        extra="ignore"
+    )
 
 
 settings = Settings()

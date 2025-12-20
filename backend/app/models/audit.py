@@ -49,3 +49,4 @@ class AuditLog(Base):
     
     def __repr__(self):
         return f"<AuditLog {self.audit_id} - {self.accion.value}>"
+        
