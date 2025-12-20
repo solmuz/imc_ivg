@@ -91,7 +91,7 @@ async def login(
     
     # Create access token
     access_token = create_access_token(
-        data={"sub": user.user_id, "email": user.email, "rol": user.rol.value}
+        data={"sub": str(user.user_id), "email": user.email, "rol": user.rol.value}
     )
     
     # Log successful login
