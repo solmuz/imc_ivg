@@ -17,7 +17,7 @@ router = APIRouter(prefix="/api/users", tags=["Users"])
 async def get_users(
     skip: int = 0,
     limit: int = 100,
-    current_user: User = Depends(require_admin),
+    current_user: User = Depends(get_current_active_user),
     db: Session = Depends(get_db)
 ):
     """Get all users (Admin only)."""

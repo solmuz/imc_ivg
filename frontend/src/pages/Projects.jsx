@@ -6,7 +6,7 @@ import './Projects.css'
 
 function Projects() {
   const [searchParams] = useSearchParams()
-  const { canEdit } = useAuth()
+  const {user, canEdit } = useAuth()
   const [projects, setProjects] = useState([])
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
@@ -26,9 +26,10 @@ function Projects() {
 
   const loadData = async () => {
     try {
+      // Cargamos proyectos y usuarios (los usuarios ahora cargan gracias al cambio en el router de users)
       const [projectsRes, usersRes] = await Promise.all([
         projectService.getAll({ page_size: 100 }),
-        canEdit() ? userService.getAll() : Promise.resolve({ data: [] })
+        userService.getAll() 
       ])
       setProjects(projectsRes.data.projects)
       setUsers(usersRes.data || [])

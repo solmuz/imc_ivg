@@ -24,9 +24,9 @@ export const volunteerService = {
 }
 
 export const userService = {
-  getAll: (params = {}) => api.get('/api/users', { params }),
-  getById: (id) => api.get(`/api/users/${id}`),
-  create: (data) => api.post('/api/users', data),
+  getAll: (params = {}) => api.get('/api/users/', { params }),
+  getById: (id) => api.get(`/api/users/${id}/`),
+  create: (data) => api.post('/api/users/', data),
   update: (id, data) => api.put(`/api/users/${id}`, data),
   resetPassword: (id, data) => api.post(`/api/users/${id}/reset-password`, data),
   deactivate: (id) => api.delete(`/api/users/${id}`),

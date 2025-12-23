@@ -93,6 +93,15 @@ async def create_project(
     current_user: User = Depends(require_admin_or_user),
     db: Session = Depends(get_db)
 ):
+
+    # --- SECURITY LOGIC FOR RESPONSIBLE OF PROJECT ---
+    # if Admin, then respect ID.
+    # if user, then responsible is forced to be the active user.
+    if current_user.rol == UserRole.ADMINISTRADOR:
+        target_responsable_id = project_data.responsable_id
+    else:
+        target_responsable_id = current_user.user_id
+
     """Create a new project (Admin or Usuario only)."""
     # Verify responsable exists
     responsable = db.query(User).filter(User.user_id == project_data.responsable_id).first()
@@ -106,7 +115,7 @@ async def create_project(
     new_project = Project(
         nombre=project_data.nombre,
         descripcion=project_data.descripcion,
-        responsable_id=project_data.responsable_id,
+        responsable_id=target_responsable_id,
         fecha_inicio=project_data.fecha_inicio or date.today(),
         estado=ProjectStatus.ACTIVO,
         created_by=current_user.user_id
