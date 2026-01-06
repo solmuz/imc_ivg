@@ -6,32 +6,32 @@ from decimal import Decimal, ROUND_HALF_UP
 from app.models.volunteer import Sexo, BandaIMC
 from app.config import settings
 
-
 class VolunteerBase(BaseModel):
     """Base volunteer schema."""
     sexo: Sexo
-    peso_kg: Decimal = Field(..., gt=0, le=settings.PESO_MAX_KG, decimal_places=2)
-    estatura_m: Decimal = Field(..., ge=settings.ESTATURA_MIN_M, le=settings.ESTATURA_MAX_M, decimal_places=2)
+    # CAMBIO: Quitamos decimal_places del Field para evitar el conflicto con Pydantic v2
+    peso_kg: Decimal = Field(..., gt=0, le=settings.PESO_MAX_KG)
+    estatura_m: Decimal = Field(..., ge=settings.ESTATURA_MIN_M, le=settings.ESTATURA_MAX_M)
     
     @field_validator('peso_kg', 'estatura_m', mode='before')
     @classmethod
     def round_decimal(cls, v):
         """Round to 2 decimal places using half up."""
         if v is not None:
+            # Esto asegura que el valor sea Decimal y tenga 2 decimales antes de que Pydantic lo valide
             return Decimal(str(v)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         return v
-
 
 class VolunteerCreate(VolunteerBase):
     """Schema for creating a new volunteer."""
     pass
 
-
 class VolunteerUpdate(BaseModel):
     """Schema for updating a volunteer."""
     sexo: Optional[Sexo] = None
-    peso_kg: Optional[Decimal] = Field(None, gt=0, le=settings.PESO_MAX_KG, decimal_places=2)
-    estatura_m: Optional[Decimal] = Field(None, ge=settings.ESTATURA_MIN_M, le=settings.ESTATURA_MAX_M, decimal_places=2)
+    # CAMBIO: Quitamos decimal_places aquí también
+    peso_kg: Optional[Decimal] = Field(None, gt=0, le=settings.PESO_MAX_KG)
+    estatura_m: Optional[Decimal] = Field(None, ge=settings.ESTATURA_MIN_M, le=settings.ESTATURA_MAX_M)
     
     @field_validator('peso_kg', 'estatura_m', mode='before')
     @classmethod
