@@ -20,13 +20,16 @@ pip install pymysql cryptography
 python -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 
-# Instalar dependencias
+# Instalar dependencias en carpeta backend
 pip install -r requirements.txt
+tambien: pip install pymysql cryptography bcrypt
 
 # Iniciar la API
 uvicorn app.main:app --host 0.0.0.0 --port 8000
+uvicorn app.main:app:reload (por si se tuvo que agregar algo mas)
 
 # Iniciar en modo desarrollo
+npm install
 npm run dev
 
 🛠 Estructura del Proyecto
