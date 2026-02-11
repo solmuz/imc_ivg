@@ -7,6 +7,12 @@ import enum
 from app.database import Base
 
 
+def _get_now():
+    """Factory function to get current time in local timezone (avoids circular imports)."""
+    from app.utils.timezone import get_now
+    return get_now()
+
+
 class Sexo(str, enum.Enum):
     """Sex enumeration."""
     M = "M"
@@ -38,8 +44,8 @@ class Volunteer(Base):
     deleted_by = Column(Integer, ForeignKey("users.user_id"), nullable=True)
     deleted_at = Column(DateTime, nullable=True)
     deletion_reason = Column(String(255), nullable=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=_get_now)
+    updated_at = Column(DateTime, nullable=False, default=_get_now, onupdate=_get_now)
     
     # Unique constraint: correlativo must be unique within a project
     __table_args__ = (

@@ -18,6 +18,7 @@ from app.schemas.volunteer import (
 from app.utils.auth import get_current_active_user, require_admin_or_user, require_admin
 from app.utils.imc import calculate_imc, get_banda_imc
 from app.utils.audit import create_audit_log, model_to_dict
+from app.utils.timezone import get_now
 
 router = APIRouter(prefix="/api/projects/{project_id}/volunteers", tags=["Volunteers"])
 
@@ -307,7 +308,7 @@ async def delete_volunteer(
     # Soft delete
     volunteer.is_deleted = True
     volunteer.deleted_by = current_user.user_id
-    volunteer.deleted_at = datetime.utcnow()
+    volunteer.deleted_at = get_now()
     volunteer.deletion_reason = delete_data.deletion_reason if delete_data else None
     
     db.commit()

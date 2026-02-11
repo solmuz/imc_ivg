@@ -18,6 +18,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from app.database import get_db
 from app.models.user import User, UserRole
 from app.models.project import Project
+from app.utils.timezone import get_now
 from app.models.volunteer import Volunteer, Sexo, BandaIMC
 from app.models.audit import EntityType, ActionType
 from app.utils.auth import get_current_active_user
@@ -109,7 +110,7 @@ async def export_csv(
     
     # Return CSV file
     output.seek(0)
-    filename = f"reporte_{project.nombre}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    filename = f"reporte_{project.nombre}_{get_now().strftime('%Y%m%d_%H%M%S')}.csv"
     
     return StreamingResponse(
         iter([output.getvalue()]),
@@ -187,7 +188,7 @@ async def export_pdf(
     elements.append(Paragraph(f"Responsable: {project.responsable.nombre if project.responsable else 'N/A'}", info_style))
     elements.append(Paragraph(f"Fecha de inicio: {project.fecha_inicio}", info_style))
     elements.append(Paragraph(f"Generado por: {current_user.nombre}", info_style))
-    elements.append(Paragraph(f"Fecha de generación: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", info_style))
+    elements.append(Paragraph(f"Fecha de generación: {get_now().strftime('%Y-%m-%d %H:%M:%S')}", info_style))
     elements.append(Spacer(1, 12))
     
     # Statistics
@@ -283,7 +284,7 @@ async def export_pdf(
     
     # Return PDF file
     buffer.seek(0)
-    filename = f"reporte_{project.nombre}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    filename = f"reporte_{project.nombre}_{get_now().strftime('%Y%m%d_%H%M%S')}.pdf"
     
     return StreamingResponse(
         buffer,

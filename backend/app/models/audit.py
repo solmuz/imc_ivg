@@ -7,6 +7,12 @@ import enum
 from app.database import Base
 
 
+def _get_now():
+    """Factory function to get current time in local timezone (avoids circular imports)."""
+    from app.utils.timezone import get_now
+    return get_now()
+
+
 class EntityType(str, enum.Enum):
     """Entity type enumeration for audit."""
     PROJECT = "PROJECT"
@@ -41,7 +47,7 @@ class AuditLog(Base):
     detalle_after = Column(Text, nullable=True)   # JSON string
     ip_address = Column(String(45), nullable=True)  # IPv6 compatible
     user_agent = Column(String(255), nullable=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow, index=True)
+    created_at = Column(DateTime, nullable=False, default=_get_now, index=True)
     
     # Relationships
     project = relationship("Project", back_populates="audit_logs")
@@ -49,4 +55,3 @@ class AuditLog(Base):
     
     def __repr__(self):
         return f"<AuditLog {self.audit_id} - {self.accion.value}>"
-        

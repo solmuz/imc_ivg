@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models.audit import AuditLog, EntityType, ActionType
 from app.models.user import User
+from app.utils.timezone import get_now
 
 
 def create_audit_log(
@@ -48,7 +49,7 @@ def create_audit_log(
         detalle_after=json.dumps(detalle_after, default=str) if detalle_after else None,
         ip_address=ip_address,
         user_agent=user_agent,
-        created_at=datetime.utcnow()
+        created_at=get_now()
     )
     db.add(audit)
     db.commit()

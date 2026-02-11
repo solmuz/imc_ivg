@@ -7,6 +7,12 @@ import enum
 from app.database import Base
 
 
+def _get_now():
+    """Factory function to get current time in local timezone (avoids circular imports)."""
+    from app.utils.timezone import get_now
+    return get_now()
+
+
 class ProjectStatus(str, enum.Enum):
     """Project status enumeration."""
     ACTIVO = "Activo"
@@ -25,8 +31,8 @@ class Project(Base):
     fecha_inicio = Column(Date, nullable=False, default=date.today)
     estado = Column(SQLEnum(ProjectStatus), nullable=False, default=ProjectStatus.ACTIVO)
     created_by = Column(Integer, ForeignKey("users.user_id"), nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=_get_now)
+    updated_at = Column(DateTime, nullable=False, default=_get_now, onupdate=_get_now)
     
     # Relationships
     responsable = relationship(

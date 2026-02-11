@@ -7,6 +7,12 @@ import enum
 from app.database import Base
 
 
+def _get_now():
+    """Factory function to get current time in local timezone (avoids circular imports)."""
+    from app.utils.timezone import get_now
+    return get_now()
+
+
 class UserRole(str, enum.Enum):
     """User roles enumeration."""
     ADMINISTRADOR = "Administrador"
@@ -33,8 +39,8 @@ class User(Base):
     force_password_change = Column(Boolean, default=False)
     failed_login_attempts = Column(Integer, default=0)
     locked_until = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=_get_now)
+    updated_at = Column(DateTime, nullable=False, default=_get_now, onupdate=_get_now)
     
     # Relationships
     projects_responsible = relationship(

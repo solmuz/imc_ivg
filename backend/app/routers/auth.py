@@ -15,6 +15,7 @@ from app.utils.auth import (
     get_current_active_user
 )
 from app.utils.audit import create_audit_log
+from app.utils.timezone import get_now
 from app.config import settings
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
@@ -42,7 +43,7 @@ async def login(
         )
     
     # Check if account is locked
-    if user.locked_until and user.locked_until > datetime.utcnow():
+    if user.locked_until and user.locked_until > get_now():
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=f"Cuenta bloqueada. Intente de nuevo más tarde."
@@ -55,7 +56,7 @@ async def login(
         
         # Lock account if max attempts reached
         if user.failed_login_attempts >= settings.MAX_LOGIN_ATTEMPTS:
-            user.locked_until = datetime.utcnow() + timedelta(minutes=settings.LOCKOUT_DURATION_MINUTES)
+            user.locked_until = get_now() + timedelta(minutes=settings.LOCKOUT_DURATION_MINUTES)
             db.commit()
             
             # Log failed attempt
