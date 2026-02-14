@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { auditService, userService, projectService } from '../services/dataService'
+import { formatDateTime } from '../utils/dateFormatter'
 import './AuditTrail.css'
 
 function AuditTrail() {
@@ -178,7 +179,7 @@ function AuditTrail() {
                       {getEntityLabel(log.entidad)} #{log.entidad_id}
                     </span>
                     <span className="audit-time">
-                      {new Date(log.created_at).toLocaleString()}
+                      {formatDateTime(log.created_at)}
                     </span>
                   </div>
                   <div className="audit-body">

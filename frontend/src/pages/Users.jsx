@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { userService } from '../services/dataService'
+import { formatDate } from '../utils/dateFormatter'
 import './Users.css'
 
 function Users() {
@@ -131,7 +132,7 @@ function Users() {
                   {user.estado}
                 </span>
               </td>
-              <td>{new Date(user.created_at).toLocaleDateString()}</td>
+              <td>{formatDate(user.created_at)}</td>
               <td>
                 <button onClick={() => openEdit(user)} className="btn-sm btn-edit">
                   Editar

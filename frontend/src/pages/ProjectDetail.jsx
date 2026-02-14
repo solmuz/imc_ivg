@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { projectService, volunteerService, reportService } from '../services/dataService'
+import { formatDate } from '../utils/dateFormatter'
 import './ProjectDetail.css'
 
 function ProjectDetail() {
@@ -229,7 +230,7 @@ function ProjectDetail() {
                       {getBandaLabel(v.banda_imc)}
                     </span>
                   </td>
-                  <td>{new Date(v.created_at).toLocaleDateString()}</td>
+                  <td>{formatDate(v.created_at)}</td>
                   <td>{v.registrar?.nombre || 'N/A'}</td>
                   {(canEdit() || canDelete()) && (
                     <td>
