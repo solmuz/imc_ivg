@@ -1,7 +1,7 @@
 """Project model for managing IMC projects."""
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, Enum as SQLEnum, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime, date
+from datetime import date
 import enum
 
 from app.database import Base

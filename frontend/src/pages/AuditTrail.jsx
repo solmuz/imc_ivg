@@ -8,6 +8,7 @@ function AuditTrail() {
   const [loading, setLoading] = useState(true)
   const [users, setUsers] = useState([])
   const [projects, setProjects] = useState([])
+  const [volunteers, setVolunteers] = useState([])
   const [filters, setFilters] = useState({
     project_id: '',
     user_id: '',
@@ -28,12 +29,14 @@ function AuditTrail() {
 
   const loadInitialData = async () => {
     try {
-      const [usersRes, projectsRes] = await Promise.all([
+      const [usersRes, projectsRes, volunteersRes] = await Promise.all([
         userService.getAll(),
-        projectService.getAll({ page_size: 100 })
+        projectService.getAll({ page_size: 100 }),
+        projectService.getAllVolunteers?.()?.catch(() => ({ data: [] }))
       ])
       setUsers(usersRes.data)
       setProjects(projectsRes.data.projects)
+      setVolunteers(volunteersRes?.data || [])
     } catch (error) {
       console.error('Error loading initial data:', error)
     }
@@ -99,6 +102,34 @@ function AuditTrail() {
       LOGIN_FAILED: 'Login Fallido'
     }
     return labels[action] || action
+  }
+
+  const getProjectName = (projectId) => {
+    const project = projects.find(p => p.project_id === projectId)
+    return project ? project.nombre : `Proyecto #${projectId}`
+  }
+
+  const getEntityDisplayName = (entityType, entityId) => {
+    switch (entityType) {
+      case 'PROJECT': {
+        const project = projects.find(p => p.project_id === entityId)
+        return project ? project.nombre : `Proyecto #${entityId}`
+      }
+      case 'VOLUNTEER': {
+        const volunteer = volunteers.find(v => v.volunteer_id === entityId)
+        return volunteer ? `${volunteer.nombre} ${volunteer.apellido}` : `Voluntario #${entityId}`
+      }
+      case 'USER': {
+        const user = users.find(u => u.user_id === entityId)
+        return user ? user.nombre : `Usuario #${entityId}`
+      }
+      case 'REPORT':
+        return `Reporte #${entityId}`
+      case 'SESSION':
+        return `Sesión #${entityId}`
+      default:
+        return `#${entityId}`
+    }
   }
 
   const totalPages = Math.ceil(total / pageSize)
@@ -176,7 +207,7 @@ function AuditTrail() {
                       {getActionLabel(log.accion)}
                     </span>
                     <span className="entity-badge">
-                      {getEntityLabel(log.entidad)} #{log.entidad_id}
+                      {getEntityLabel(log.entidad)}: {getEntityDisplayName(log.entidad, log.entidad_id)}
                     </span>
                     <span className="audit-time">
                       {formatDateTime(log.created_at)}
@@ -188,7 +219,7 @@ function AuditTrail() {
                     </span>
                     {log.project_id && (
                       <span className="audit-project">
-                        📁 Proyecto #{log.project_id}
+                        📁 {getProjectName(log.project_id)}
                       </span>
                     )}
                     {log.ip_address && (
