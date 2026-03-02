@@ -227,7 +227,7 @@ async def archive_project(
     ip_address = request.client.host if request.client else None
     create_audit_log(
         db=db, user=current_user, entidad=EntityType.PROJECT,
-        entidad_id=project.project_id, accion=ActionType.ELIMINACION,
+        entidad_id=project.project_id, accion=ActionType.MODIFICACION,
         project_id=project.project_id,
         detalle_before=before,
         detalle_after=model_to_dict(project),
